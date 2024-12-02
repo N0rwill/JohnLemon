@@ -1,2 +1,2 @@
 # JohnLemonRepo
- Repositoryfor John Lemon Project
+ Repository for John Lemon Project
