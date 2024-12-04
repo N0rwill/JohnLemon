@@ -15,51 +15,51 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-       movespeed = 1f;
+        movespeed = 1f;
         m_Animator = GetComponent<Animator> ();
         m_Rigidbody = GetComponent<Rigidbody> ();
         m_AudioSource = GetComponent<AudioSource>();
     }
 
- void Update()
- {
-     if (Input.GetKeyDown(KeyCode.LeftShift))
-     {
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
          movespeed = 2f;
-     }
-     if(Input.GetKeyUp(KeyCode.LeftShift))
-     {
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
          movespeed = 1f;
-     }
- }
- 
+        }
+    }
+
     void FixedUpdate()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
 
-        m_Movement.Set(horizontal, 0f, vertical);
-        m_Movement.Normalize();
+            m_Movement.Set(horizontal, 0f, vertical);
+            m_Movement.Normalize();
 
-        bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
-        bool hasVerticalInput = !Mathf.Approximately(vertical, 0f);
-        bool isWalking = hasHorizontalInput || hasVerticalInput;
-        m_Animator.SetBool("IsWalking", isWalking);
+            bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
+            bool hasVerticalInput = !Mathf.Approximately(vertical, 0f);
+            bool isWalking = hasHorizontalInput || hasVerticalInput;
+            m_Animator.SetBool("IsWalking", isWalking);
 
-        if (isWalking)
-        {
-            if (!m_AudioSource.isPlaying)
+            if (isWalking)
             {
-                m_AudioSource.Play();
+                if (!m_AudioSource.isPlaying)
+                {
+                    m_AudioSource.Play();
+                }
             }
-        }
-        else
-        {
-            m_AudioSource.Stop ();
-        }
+            else
+            {
+                m_AudioSource.Stop ();
+            }
 
-        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
-        m_Rotation = Quaternion.LookRotation(desiredForward);
+            Vector3 desiredForward = Vector3.RotateTowards(transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
+            m_Rotation = Quaternion.LookRotation(desiredForward);
     }
 
     void OnAnimatorMove()
