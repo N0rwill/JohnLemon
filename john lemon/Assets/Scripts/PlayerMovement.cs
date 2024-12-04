@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float turnSpeed = 20f;
+    public float movespeed;
 
     Animator m_Animator;
     Rigidbody m_Rigidbody;
@@ -14,11 +15,24 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+       movespeed = 1f;
         m_Animator = GetComponent<Animator> ();
         m_Rigidbody = GetComponent<Rigidbody> ();
         m_AudioSource = GetComponent<AudioSource>();
     }
 
+ void Update()
+ {
+     if (Input.GetKeyDown(KeyCode.LeftShift))
+     {
+         movespeed = 2f;
+     }
+     if(Input.GetKeyUp(KeyCode.LeftShift))
+     {
+         movespeed = 1f;
+     }
+ }
+ 
     void FixedUpdate()
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -50,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnAnimatorMove()
     {
-        m_Rigidbody.MovePosition(m_Rigidbody.position + m_Movement * m_Animator.deltaPosition.magnitude);
+        m_Rigidbody.MovePosition(m_Rigidbody.position + m_Movement * movespeed * m_Animator.deltaPosition.magnitude);
         m_Rigidbody.MoveRotation(m_Rotation);
     }
 }
